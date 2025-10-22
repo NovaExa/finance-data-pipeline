@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS prd_dw.fact.engagement_cohorts
     t11                                                 integer encode az64,
     t12                                                 integer encode az64,
     projected_months_cut                                numeric(6) encode az64,
-    monthly_classification                              varchar(50),
+    monthly_classification                              varchar(50) NOT NULL,
 	prev_monthly_classification                         varchar(50),
-	prev_days_cut_this_month                            integer encode az64,
-	monthly_classification_desc                         varchar(50),
-	prev_monthly_classification_desc                    varchar(50),
+	prev_days_cut_this_month                            integer encode az64 NOT NULL,
+	monthly_classification_desc                         varchar(50) NOT NULL,
+	prev_monthly_classification_desc                    varchar(50) NOT NULL,
     dw_load_date                                        timestamp
 )
     diststyle key
@@ -129,11 +129,14 @@ CREATE TABLE IF NOT EXISTS prd_dw.fact.engagement_cohorts
 				END AS projected_months_cut
 			, CASE
 				WHEN user_age_in_months IN (1, 2) THEN 'Onboarding'
+				WHEN user_age_in_months = 3 AND (t1 + t2 + t3 = 0) THEN 'N'
 				WHEN user_age_in_months in (3, 4, 5) AND (t1 + t2 + t3 >= 2) THEN 'M'
 				WHEN user_age_in_months in (3, 4, 5) AND (t1 + t2 + t3 = 1 ) THEN 'Q'
-				WHEN user_age_in_months in (3, 4, 5) AND (t1 + t2 + t3 = 0 ) THEN 'R'
+				WHEN user_age_in_months in (4, 5) AND (t1 + t2 + t3 = 0 ) THEN 'R'
 				when user_age_in_months = 6 and projected_months_cut >= 8 and (t1 + t2 + t3 >= 1) and (t4 + t5 + t6 >= 1) then 'M'
+				when user_age_in_months = 6 and projected_months_cut >= 6 and (t1 + t2 + t3 >= 2) then 'Q'
 				when user_age_in_months = 6 and (t1 + t2 + t3 >= 1) and (t4 + t5 + t6 >= 1) then 'Q'
+				when user_age_in_months = 6 and (t1 + t2 + t3 >= 2) then 'R'
 				when user_age_in_months = 6 and (t1 + t2 + t3 + t4 + t5 + t6 >= 1) then 'R'
 				when user_age_in_months = 6 and (t1 + t2 + t3 + t4 + t5 + t6 = 0) then 'N'
 				when user_age_in_months = 7 and projected_months_cut >= 8 and (t1 + t2 + t3 >= 1) and (t4 + t5 + t6 >= 1) then 'M'
@@ -246,7 +249,7 @@ CREATE TABLE IF NOT EXISTS prd_dw.fact.engagement_cohorts
 	UNION ALL
 	SELECT 'Unclassified' AS monthly_classification_score, 5 AS bucket_score
 )
-SELECT
+SELECT DISTINCT
 	a.user_id
 	, a.first_cutting_machine_registration_month_start_date
 	, a.first_day_of_evaluation_month
