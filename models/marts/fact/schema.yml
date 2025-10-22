@@ -37,39 +37,75 @@ models:
       
       - name: t1
         description: Binary indicator if user cut in current month (most recent)
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t2
         description: Binary indicator if user cut 1 month ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t3
         description: Binary indicator if user cut 2 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t4
         description: Binary indicator if user cut 3 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t5
         description: Binary indicator if user cut 4 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t6
         description: Binary indicator if user cut 5 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t7
         description: Binary indicator if user cut 6 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t8
         description: Binary indicator if user cut 7 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t9
         description: Binary indicator if user cut 8 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t10
         description: Binary indicator if user cut 9 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t11
         description: Binary indicator if user cut 10 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: t12
         description: Binary indicator if user cut 11 months ago
+        tests:
+          - accepted_values:
+              values: [0, 1]
       
       - name: projected_months_cut
         description: Projected number of months user will cut in a 12-month period (calculated for users aged 6-11 months)
@@ -78,20 +114,34 @@ models:
         description: >
           User engagement classification: M (Monthly), Q (Quarterly), R (Occasional/Rare), 
           N (Non-Engaged), Never Engaged, Onboarding, or Unclassified
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['M', 'Q', 'R', 'N', 'Never Engaged', 'Onboarding', 'Unclassified']
       
       - name: prev_monthly_classification
         description: User's engagement classification from previous month
       
       - name: prev_days_cut_this_month
         description: Number of days user cut in the previous evaluation month
+        tests:
+          - not_null
       
       - name: monthly_classification_desc
         description: >
           Descriptive label for engagement classification: Monthly Power, Monthly, 
           Quarterly, Occasional, Non Engaged, Never Engaged, Onboarding, or Unclassified
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monthly Power', 'Monthly', 'Quarterly', 'Occasional', 'Non Engaged', 'Never Engaged', 'Onboarding', 'Unclassified']
       
       - name: prev_monthly_classification_desc
         description: Descriptive label for previous month's engagement classification
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monthly Power', 'Monthly', 'Quarterly', 'Occasional', 'Non Engaged', 'Never Engaged', 'Onboarding', 'Unclassified']
       
       - name: dw_load_date
         description: Timestamp when record was loaded into the data warehouse
