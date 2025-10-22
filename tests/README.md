@@ -14,83 +14,61 @@ This directory contains data quality and business logic tests for the `engagemen
 - `prev_days_cut_this_month`: NOT NULL validation
 - `prev_monthly_classification_desc`: NOT NULL + accepted values
 
-### Custom SQL Tests
+### Custom SQL Tests (in `test_engagement_cohorts_all.sql`)
 
-#### 1. `test_engagement_cohorts.sql`
-**Purpose:** Validates new 3-month user classification logic
+This single comprehensive test file contains 7 business logic validations:
 
+#### 1. Three-Month User Classification
 **What it tests:**
 - 3-month users with zero engagement (t1+t2+t3 = 0) should be classified as 'N' (Non Engaged)
 - This is a new business rule added to better segment early-stage users
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 2. `test_engagement_cohorts_classification_consistency.sql`
-**Purpose:** Ensures classification code and description are aligned
-
+#### 2. Classification and Description Consistency
 **What it tests:**
 - `monthly_classification_desc` matches the expected description for each `monthly_classification` value
 - Validates Monthly Power vs Monthly based on days_cut_this_month threshold (5 days)
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 3. `test_engagement_cohorts_user_age.sql`
-**Purpose:** Validates user age calculation logic
-
+#### 3. User Age Calculation Validation
 **What it tests:**
 - `user_age_in_months` is at least 1
 - Registration date is before or equal to evaluation date
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 4. `test_engagement_cohorts_days_cut.sql`
-**Purpose:** Validates cutting activity metrics
-
+#### 4. Days Cut Validation
 **What it tests:**
 - `days_cut_lifetime` is non-negative
 - `days_cut_this_month` is non-negative
 - `days_cut_lifetime` is greater than or equal to `days_cut_this_month` (cumulative logic)
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 5. `test_engagement_cohorts_never_engaged.sql`
-**Purpose:** Validates 'Never Engaged' classification
-
+#### 5. Never Engaged Classification Validation
 **What it tests:**
 - Users classified as 'Never Engaged' have `days_cut_lifetime = 0`
 - 'Never Engaged' classification only applies to users aged 12+ months
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 6. `test_engagement_cohorts_onboarding.sql`
-**Purpose:** Validates 'Onboarding' classification
-
+#### 6. Onboarding Classification Validation
 **What it tests:**
 - Only users aged 1-2 months are classified as 'Onboarding'
 
-**Expected result:** No rows (test passes when empty)
-
 ---
 
-#### 7. `test_engagement_cohorts_six_month_classification.sql`
-**Purpose:** Validates enhanced 6-month user classification logic
-
+#### 7. Six-Month User Classification Logic
 **What it tests:**
 - 6-month users with `projected_months_cut >= 8` and engagement in both quarters → 'M'
 - 6-month users with `projected_months_cut >= 6` and t1+t2+t3 >= 2 → 'Q'
 - Additional Q and R classification rules for better segmentation
 
-**Expected result:** No rows (test passes when empty)
+---
+
+**Expected result:** No rows (test passes when empty). The test outputs a summary showing test_name and failure count for any failing tests.
 
 ---
 
@@ -108,7 +86,7 @@ dbt test --select engagement_cohorts
 
 ### Run specific test
 ```bash
-dbt test --select test_engagement_cohorts
+dbt test --select test_engagement_cohorts_all
 ```
 
 ### Run schema tests only
