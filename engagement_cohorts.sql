@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS prd_dw.fact.engagement_cohorts
     t12                                                 integer encode az64,
     projected_months_cut                                numeric(6) encode az64,
     monthly_classification                              varchar(50),
-    prev_monthly_classification                         varchar(50),
-    prev_days_cut_this_month                            integer encode az64,
-    monthly_classification_desc                         varchar(50),
-    prev_monthly_classification_desc                    varchar(50),
+	prev_monthly_classification                         varchar(50),
+	prev_days_cut_this_month                            integer encode az64,
+	monthly_classification_desc                         varchar(50),
+	prev_monthly_classification_desc                    varchar(50),
     dw_load_date                                        timestamp
 )
     diststyle key
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS prd_dw.fact.engagement_cohorts
 	UNION ALL
 	SELECT 'Unclassified' AS monthly_classification_score, 5 AS bucket_score
 )
-SELECT DISTINCT
+SELECT
 	a.user_id
 	, a.first_cutting_machine_registration_month_start_date
 	, a.first_day_of_evaluation_month
