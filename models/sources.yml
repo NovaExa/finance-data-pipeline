@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: prd_dw_fact
+    description: Production data warehouse fact tables
+    database: prd_dw
+    schema: fact
+    tables:
+      - name: machine_registration
+        description: Machine registration events by users
+        columns:
+          - name: user_id
+            description: User identifier
+          - name: serial_number
+            description: Machine serial number
+          - name: registration_date
+            description: Date machine was registered
+      
+      - name: cut_session_master
+        description: Master table of all cutting sessions
+        columns:
+          - name: user_id
+            description: User identifier
+          - name: project_id
+            description: Project identifier
+          - name: cut_session_start_date
+            description: Timestamp when cut session started
+  
+  - name: prd_dw_dim
+    description: Production data warehouse dimension tables
+    database: prd_dw
+    schema: dim
+    tables:
+      - name: user_profile
+        description: User profile dimension
+        columns:
+          - name: user_id
+            description: User identifier
+          - name: created_date
+            description: Date user was created
+  
+  - name: dw_dim
+    description: Data warehouse dimension tables
+    database: dw
+    schema: dim
+    tables:
+      - name: machine
+        description: Machine dimension table
+        columns:
+          - name: serial_number
+            description: Machine serial number
+          - name: is_connected
+            description: Whether machine is connected
+      
+      - name: date
+        description: Date dimension table
+        columns:
+          - name: date_id
+            description: Date identifier
+          - name: first_day_of_month
+            description: First day of the month for the date
+

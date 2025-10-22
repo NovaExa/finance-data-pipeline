@@ -1,0 +1,36 @@
+# Example dbt profiles configuration
+# Copy this file to ~/.dbt/profiles.yml and update with your credentials
+
+pr_review_demo:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: your-cluster.region.redshift.amazonaws.com
+      user: your_username
+      password: your_password
+      port: 5439
+      dbname: your_database
+      schema: prd_dw
+      threads: 4
+      keepalives_idle: 0
+      connect_timeout: 10
+      search_path: public
+      sslmode: prefer
+    
+    prod:
+      type: redshift
+      host: your-prod-cluster.region.redshift.amazonaws.com
+      user: your_prod_username
+      password: your_prod_password
+      port: 5439
+      dbname: your_prod_database
+      schema: prd_dw
+      threads: 8
+      keepalives_idle: 0
+      connect_timeout: 10
+      search_path: public
+      sslmode: prefer
+
+
+

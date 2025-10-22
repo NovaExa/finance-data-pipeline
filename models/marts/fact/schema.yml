@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: engagement_cohorts
+    description: >
+      User engagement cohort analysis tracking monthly user activity patterns.
+      This model classifies users into engagement segments (Monthly, Quarterly, 
+      Occasional, Non-Engaged) based on their cutting machine usage patterns 
+      over rolling 12-month windows.
+    
+    columns:
+      - name: user_id
+        description: Unique identifier for the user
+        tests:
+          - not_null
+      
+      - name: first_cutting_machine_registration_month_start_date
+        description: First day of the month when user registered their first cutting machine
+        tests:
+          - not_null
+      
+      - name: first_day_of_evaluation_month
+        description: First day of the month being evaluated for engagement
+        tests:
+          - not_null
+      
+      - name: user_age_in_months
+        description: Number of months since user's first machine registration
+        tests:
+          - not_null
+      
+      - name: days_cut_lifetime
+        description: Total number of days user has cut across their lifetime
+      
+      - name: days_cut_this_month
+        description: Number of days user cut during the evaluation month
+      
+      - name: t1
+        description: Binary indicator if user cut in current month (most recent)
+      
+      - name: t2
+        description: Binary indicator if user cut 1 month ago
+      
+      - name: t3
+        description: Binary indicator if user cut 2 months ago
+      
+      - name: t4
+        description: Binary indicator if user cut 3 months ago
+      
+      - name: t5
+        description: Binary indicator if user cut 4 months ago
+      
+      - name: t6
+        description: Binary indicator if user cut 5 months ago
+      
+      - name: t7
+        description: Binary indicator if user cut 6 months ago
+      
+      - name: t8
+        description: Binary indicator if user cut 7 months ago
+      
+      - name: t9
+        description: Binary indicator if user cut 8 months ago
+      
+      - name: t10
+        description: Binary indicator if user cut 9 months ago
+      
+      - name: t11
+        description: Binary indicator if user cut 10 months ago
+      
+      - name: t12
+        description: Binary indicator if user cut 11 months ago
+      
+      - name: projected_months_cut
+        description: Projected number of months user will cut in a 12-month period (calculated for users aged 6-11 months)
+      
+      - name: monthly_classification
+        description: >
+          User engagement classification: M (Monthly), Q (Quarterly), R (Occasional/Rare), 
+          N (Non-Engaged), Never Engaged, Onboarding, or Unclassified
+      
+      - name: prev_monthly_classification
+        description: User's engagement classification from previous month
+      
+      - name: prev_days_cut_this_month
+        description: Number of days user cut in the previous evaluation month
+      
+      - name: monthly_classification_desc
+        description: >
+          Descriptive label for engagement classification: Monthly Power, Monthly, 
+          Quarterly, Occasional, Non Engaged, Never Engaged, Onboarding, or Unclassified
+      
+      - name: prev_monthly_classification_desc
+        description: Descriptive label for previous month's engagement classification
+      
+      - name: dw_load_date
+        description: Timestamp when record was loaded into the data warehouse
+        tests:
+          - not_null
+
